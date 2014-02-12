@@ -10,8 +10,10 @@
 #import "AVAudio.h"
 #import "General.h"
 #import "Options.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface AudioViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, NetworkReceiveDelegate> {
+@interface AudioViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, NetworkReceiveDelegate, MPMediaPickerControllerDelegate> {
     //Delegates
     id<NetworkSendDelegate> networkDelegate;
     id<ModalViewDelegate> modalDelegate;

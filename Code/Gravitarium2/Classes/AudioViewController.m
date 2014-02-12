@@ -8,6 +8,13 @@
 
 #import "AudioViewController.h"
 
+
+@interface AudioViewController()
+{
+     MPMediaItem *song;
+}
+
+@end
 @implementation AudioViewController
 
 #pragma mark Properties
@@ -160,7 +167,7 @@
 
     if (cell == nil) cell = [[[UITableViewCell alloc] initWithStyle: UITableViewCellStyleValue1 reuseIdentifier:@"MyIdentifier"] autorelease];
     
-    if(indexPath.row <= [AVAudio sharedAudio].music.count)
+    if(indexPath.row < [AVAudio sharedAudio].music.count)
     {
         //Cell text
         cell.textLabel.text = [[AVAudio sharedAudio].music objectAtIndex: indexPath.row];
@@ -189,14 +196,70 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //Change current sound
-    [Options sharedOptions].soundKey = [[AVAudio sharedAudio].music objectAtIndex: indexPath.row];
-
-    //Save options
-    [NSThread detachNewThreadSelector:@selector(saveOptions) toTarget: [Options sharedOptions] withObject:nil];
     
-    //Play current sound (DELAYED)
-    [self performSelector: @selector(playCurrentSound) withObject:nil afterDelay:0.25];
+    if(indexPath.row < [AVAudio sharedAudio].music.count)
+    {
+        //Change current sound
+        [Options sharedOptions].soundKey = [[AVAudio sharedAudio].music objectAtIndex: indexPath.row];
+        
+        //Save options
+        [NSThread detachNewThreadSelector:@selector(saveOptions) toTarget: [Options sharedOptions] withObject:nil];
+        
+        //Play current sound (DELAYED)
+        [self performSelector: @selector(playCurrentSound) withObject:nil afterDelay:0.25];
+    }
+    else
+    {
+        [self PickAudioForIndex_iPhone];
+    }
+}
+
+-(void)PickAudioForIndex_iPhone
+{
+    
+    if ([[[UIDevice currentDevice] model] isEqualToString:@"iPhone Simulator"]) {
+        //device is simulator
+        UIAlertView *alert1;
+        alert1 = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"There is no Audio file in the Device" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok",nil];
+        alert1.tag=2;
+        [alert1 show];
+        //[alert1 release],alert1=nil;
+    }else{
+        
+        MPMediaPickerController *mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeMusic];
+        mediaPicker.delegate = self;
+        mediaPicker.allowsPickingMultipleItems = NO; // this is the default
+        [self presentViewController:mediaPicker animated:YES completion:nil];
+        
+        [self stopCurrentSound];
+    }
+    
+}
+
+#pragma mark Media picker delegate methods
+
+-(void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection {
+    
+    // We need to dismiss the picker
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    // Assign the selected item(s) to the music player and start playback.
+    if ([mediaItemCollection count] < 1) {
+        return;
+    }
+    song = [[mediaItemCollection items] objectAtIndex:0];
+//    [self handleExportTapped];
+    [self playCurrentSound];
+    
+}
+
+-(void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
+    
+    // User did not select anything
+    // We need to dismiss the picker
+    
+    [self dismissViewControllerAnimated:YES completion:nil ];
+    [self playCurrentSound];
 }
 
 #pragma mark - Memory management
