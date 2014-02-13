@@ -76,7 +76,7 @@
 
 - (void)playAction:(id)sender {
     //Toogle playback state
-    if ([Options sharedOptions].soundPlaying)
+    if ([Options sharedOptions].soundPlaying || [Options sharedOptions].musicPlayerLibrary.playbackState == MPMoviePlaybackStatePlaying)
         [self stopCurrentSound];
     else
         [self playCurrentSound];
@@ -112,7 +112,14 @@
 
 -(void) updateInterface {
     //Left button
-    leftButton.title = [Options sharedOptions].soundPlaying ? @"Stop" : @"Play";
+    
+    if([Options sharedOptions].musicPlayerLibrary.playbackState == MPMoviePlaybackStatePlaying || [Options sharedOptions].soundPlaying)
+    {
+        leftButton.title = @"Stop";
+    }
+    else{
+        leftButton.title =  @"Play";
+    }
     
     //Right button
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
@@ -127,33 +134,48 @@
 
 -(void) stopCurrentSound {    
     //Toogle playback state
-    [Options sharedOptions].soundPlaying = FALSE;
     
-    //Toogle playback state
-    [[AVAudio sharedAudio] stopMusic];
-    
-    //Network send
-    [networkDelegate sendAction: G2_STOP_TRACK Argument:0 PosX:0 PosY:0 Reliable: TRUE];
+    if([Options sharedOptions].musicPlayerLibrary)
+    {
+        [[Options sharedOptions].musicPlayerLibrary stop];
+        [Options sharedOptions].musicPlayerLibrary = nil;
+    }
+
+        [Options sharedOptions].soundPlaying = FALSE;
+        
+        //Toogle playback state
+        [[AVAudio sharedAudio] stopMusic];
+        
+        //Network send
+        [networkDelegate sendAction: G2_STOP_TRACK Argument:0 PosX:0 PosY:0 Reliable: TRUE];
 }
 
--(void) playCurrentSound {    
+-(void) playCurrentSound {
     //Toogle playback state
-    [Options sharedOptions].soundPlaying = TRUE;
     
-    //Toogle playback state
-    [[AVAudio sharedAudio] playMusicKey: [Options sharedOptions].soundKey];
-
-    //Current track index
-    int trackCounter = 0;
-    for (NSString *track in [AVAudio sharedAudio].music) {
-        if ([track isEqualToString: [Options sharedOptions].soundKey])
-            break;
-        else
-            trackCounter++;
+    if([Options sharedOptions].musicPlayerLibrary)
+    {
+        [[Options sharedOptions].musicPlayerLibrary play];
     }
-    
-    //Network Send
-    [networkDelegate sendAction: G2_PLAY_TRACK Argument:trackCounter PosX:0 PosY:0 Reliable: TRUE];
+    else
+    {
+        [Options sharedOptions].soundPlaying = TRUE;
+        
+        //Toogle playback state
+        [[AVAudio sharedAudio] playMusicKey: [Options sharedOptions].soundKey];
+        
+        //Current track index
+        int trackCounter = 0;
+        for (NSString *track in [AVAudio sharedAudio].music) {
+            if ([track isEqualToString: [Options sharedOptions].soundKey])
+                break;
+            else
+                trackCounter++;
+        }
+        
+        //Network Send
+        [networkDelegate sendAction: G2_PLAY_TRACK Argument:trackCounter PosX:0 PosY:0 Reliable: TRUE];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -199,6 +221,9 @@
     
     if(indexPath.row < [AVAudio sharedAudio].music.count)
     {
+        [[Options sharedOptions].musicPlayerLibrary stop];
+        [Options sharedOptions].musicPlayerLibrary = nil;
+
         //Change current sound
         [Options sharedOptions].soundKey = [[AVAudio sharedAudio].music objectAtIndex: indexPath.row];
         
@@ -249,8 +274,20 @@
     }
     song = [[mediaItemCollection items] objectAtIndex:0];
 //    [self handleExportTapped];
-    [self playCurrentSound];
     
+    [[Options sharedOptions] setMusicPlayerLibrary: [MPMusicPlayerController applicationMusicPlayer]];
+    if(song)
+    {
+        [[Options sharedOptions].musicPlayerLibrary setQueueWithItemCollection: mediaItemCollection];
+//        [self setPlayedMusicOnce: YES];
+        [[Options sharedOptions].musicPlayerLibrary play];
+        [self updateInterface];
+
+    }
+    else
+    {
+        [self playCurrentSound];
+    }
 }
 
 -(void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {

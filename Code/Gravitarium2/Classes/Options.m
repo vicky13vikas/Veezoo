@@ -68,6 +68,8 @@ static Options *sharedOptionsInstance = nil;
 
 //Sound
 @synthesize soundKey, soundPlaying, soundMuted, soundRepeat;
+@synthesize musicPlayerLibrary;
+
 
 //Options
 @synthesize particleCount, particleTail, particleSize, particleSpeed;

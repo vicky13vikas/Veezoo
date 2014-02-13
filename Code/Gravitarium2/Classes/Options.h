@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #include <sys/sysctl.h>
 #import "AVAudio.h"
+#import <MediaPlayer/MediaPlayer.h>
+
 
 @class AVAudio;
 
@@ -35,6 +37,9 @@
 @property (nonatomic) int particleCount;
 @property (nonatomic) float particleTail, particleSize, particleSpeed,  particleRed, particleGreen, particleBlue, particleAlpha;
 @property (nonatomic) bool particleColorCycle,  preventSleep;
+
+@property(nonatomic, retain)  MPMusicPlayerController		*musicPlayerLibrary;
+
 
 #pragma mark - Initialize
 
