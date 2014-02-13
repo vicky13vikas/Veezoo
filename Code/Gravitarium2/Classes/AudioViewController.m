@@ -8,6 +8,8 @@
 
 #import "AudioViewController.h"
 
+#define CHOOSE_FROM_LIBRARY @"Choose from Library..."
+
 
 @interface AudioViewController()
 {
@@ -76,7 +78,7 @@
 
 - (void)playAction:(id)sender {
     //Toogle playback state
-    if ([Options sharedOptions].soundPlaying || [Options sharedOptions].musicPlayerLibrary.playbackState == MPMoviePlaybackStatePlaying)
+    if ([Options sharedOptions].soundPlaying)
         [self stopCurrentSound];
     else
         [self playCurrentSound];
@@ -113,7 +115,7 @@
 -(void) updateInterface {
     //Left button
     
-    if([Options sharedOptions].musicPlayerLibrary.playbackState == MPMoviePlaybackStatePlaying || [Options sharedOptions].soundPlaying)
+    if([Options sharedOptions].soundPlaying)
     {
         leftButton.title = @"Stop";
     }
@@ -156,25 +158,35 @@
     if([Options sharedOptions].musicPlayerLibrary)
     {
         [[Options sharedOptions].musicPlayerLibrary play];
+        [Options sharedOptions].soundPlaying = YES;
     }
     else
     {
         [Options sharedOptions].soundPlaying = TRUE;
         
         //Toogle playback state
-        [[AVAudio sharedAudio] playMusicKey: [Options sharedOptions].soundKey];
         
-        //Current track index
-        int trackCounter = 0;
-        for (NSString *track in [AVAudio sharedAudio].music) {
-            if ([track isEqualToString: [Options sharedOptions].soundKey])
-                break;
-            else
-                trackCounter++;
+        if([[Options sharedOptions].soundKey isEqualToString:CHOOSE_FROM_LIBRARY])
+        {
+            [self PickAudioForIndex_iPhone];
         }
-        
-        //Network Send
-        [networkDelegate sendAction: G2_PLAY_TRACK Argument:trackCounter PosX:0 PosY:0 Reliable: TRUE];
+        else
+        {
+            [[AVAudio sharedAudio] playMusicKey: [Options sharedOptions].soundKey];
+            
+            //Current track index
+            int trackCounter = 0;
+            for (NSString *track in [AVAudio sharedAudio].music) {
+                if ([track isEqualToString: [Options sharedOptions].soundKey])
+                    break;
+                else
+                    trackCounter++;
+            }
+            
+            //Network Send
+            [networkDelegate sendAction: G2_PLAY_TRACK Argument:trackCounter PosX:0 PosY:0 Reliable: TRUE];
+        }
+      
     }
 }
 
@@ -189,10 +201,20 @@
 
     if (cell == nil) cell = [[[UITableViewCell alloc] initWithStyle: UITableViewCellStyleValue1 reuseIdentifier:@"MyIdentifier"] autorelease];
     
-    if(indexPath.row < [AVAudio sharedAudio].music.count)
+    
+    if(indexPath.row == 0)
+    {
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];
+        cell.textLabel.textColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.00];
+        cell.textLabel.text = CHOOSE_FROM_LIBRARY;
+        if ([cell.textLabel.text isEqualToString: [Options sharedOptions].soundKey])
+            cell.imageView.image = [UIImage imageNamed: [Options sharedOptions].soundPlaying ?  @"play.png" : @"stop.png"];
+        else
+            cell.imageView.image = [UIImage imageNamed: @"nothing.png"];    }
+    else
     {
         //Cell text
-        cell.textLabel.text = [[AVAudio sharedAudio].music objectAtIndex: indexPath.row];
+        cell.textLabel.text = [[AVAudio sharedAudio].music objectAtIndex: indexPath.row - 1];
         
         //Cell icon
         if ([cell.textLabel.text isEqualToString: [Options sharedOptions].soundKey])
@@ -200,10 +222,7 @@
         else
             cell.imageView.image = [UIImage imageNamed: @"nothing.png"];
     }
-    else
-    {
-        cell.textLabel.text = @"Choose from library";
-    }
+
     
     //Return cell
 	return cell;
@@ -219,13 +238,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if(indexPath.row < [AVAudio sharedAudio].music.count)
+    if(indexPath.row == 0)
+    {
+        [self PickAudioForIndex_iPhone];
+    }
+    else
     {
         [[Options sharedOptions].musicPlayerLibrary stop];
         [Options sharedOptions].musicPlayerLibrary = nil;
 
         //Change current sound
-        [Options sharedOptions].soundKey = [[AVAudio sharedAudio].music objectAtIndex: indexPath.row];
+        [Options sharedOptions].soundKey = [[AVAudio sharedAudio].music objectAtIndex: indexPath.row - 1];
         
         //Save options
         [NSThread detachNewThreadSelector:@selector(saveOptions) toTarget: [Options sharedOptions] withObject:nil];
@@ -233,10 +256,7 @@
         //Play current sound (DELAYED)
         [self performSelector: @selector(playCurrentSound) withObject:nil afterDelay:0.25];
     }
-    else
-    {
-        [self PickAudioForIndex_iPhone];
-    }
+    
 }
 
 -(void)PickAudioForIndex_iPhone
@@ -280,6 +300,8 @@
     {
         [[Options sharedOptions].musicPlayerLibrary setQueueWithItemCollection: mediaItemCollection];
 //        [self setPlayedMusicOnce: YES];
+        [Options sharedOptions].soundKey = CHOOSE_FROM_LIBRARY;
+        [Options sharedOptions].soundPlaying = YES;
         [[Options sharedOptions].musicPlayerLibrary play];
         [self updateInterface];
 
