@@ -202,7 +202,7 @@ typedef struct {
     bool initialHelp = [[NSUserDefaults standardUserDefaults] boolForKey: @"initialHelp"];
     if (initialHelp == FALSE) {
         //Show alert
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to Gravitarium2!" message: @"To access the application menu just tap any screen corner." delegate:self cancelButtonTitle: @"Dismiss" otherButtonTitles: @"Help", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to Veezoo!" message: @"To access the application menu just tap any screen corner." delegate:self cancelButtonTitle: @"Dismiss" otherButtonTitles: @"Help", nil];
         alert.tag = ALERT_VIEW_HELP;
         [alert show];
         [alert release];
