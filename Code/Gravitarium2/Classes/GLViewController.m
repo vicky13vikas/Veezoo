@@ -118,6 +118,9 @@ typedef struct {
 
 - (void)loadInterstitial
 {
+    //Disabled the admob
+    
+    /*
     if (self.interstitial)
     {
         [self.interstitial setDelegate:nil];
@@ -130,6 +133,7 @@ typedef struct {
     self.interstitial.delegate = self;
     self.interstitial.adUnitID = @"ca-app-pub-5402296631424108/1054619671";
     [self.interstitial loadRequest:[self request]];
+     */
 }
 
 - (GADRequest *)request

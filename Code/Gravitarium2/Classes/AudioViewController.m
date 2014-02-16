@@ -7,11 +7,16 @@
 //
 
 #import "AudioViewController.h"
+#import "RageIAPHelper.h"
+#import "SVProgressHUD.h"
 
 #define CHOOSE_FROM_LIBRARY @"Choose from Library..."
+#define PREMIUM_FREATURE_PURCHASED @"isPremiumFeaturePurchased"
+#define PRODUCT_ID_PREMIUM @"ro.novasoft.gravitariumm2.buypremium"
+#define ALERT_TAG_PURCHASE 105
 
 
-@interface AudioViewController()
+@interface AudioViewController() <UIAlertViewDelegate>
 {
      MPMediaItem *song;
 }
@@ -59,6 +64,13 @@
     [self updateInterface];
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:IAPHelperProductPurchasedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseFailed:) name:IAPHelperPurchaseFailedNotification object:nil];
+}
 #pragma mark - OS Events
 
 #pragma mark - Rotation
@@ -240,7 +252,16 @@
     
     if(indexPath.row == 0)
     {
-        [self PickAudioForIndex_iPhone];
+        if([[NSUserDefaults standardUserDefaults] objectForKey:PREMIUM_FREATURE_PURCHASED])
+        {
+            [self PickAudioForIndex_iPhone];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"This is a premium feature" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Buy", nil];
+            alert.tag = ALERT_TAG_PURCHASE;
+            [alert show];
+        }
     }
     else
     {
@@ -258,6 +279,8 @@
     }
     
 }
+
+#pragma mark Media picker delegate methods
 
 -(void)PickAudioForIndex_iPhone
 {
@@ -280,8 +303,6 @@
     }
     
 }
-
-#pragma mark Media picker delegate methods
 
 -(void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection {
     
@@ -319,6 +340,71 @@
     
     [self dismissViewControllerAnimated:YES completion:nil ];
     [self playCurrentSound];
+}
+
+#pragma -mark UIAlertView Delegates
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(alertView.tag == ALERT_TAG_PURCHASE)
+    {
+        if(buttonIndex == 1)
+        {
+            [self buyInappPremium];
+        }
+    }
+}
+
+#pragma -mark InappPurchaseMethods
+
+
+-(void)buyInappPremium
+{
+    [SVProgressHUD showWithStatus:@"Contacting Store..."];
+
+    [[RageIAPHelper sharedInstance] requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
+        if (success)
+        {
+            SKProduct *productToBuy;
+            if([products count]>0)
+            {
+                for (SKProduct *product in products)
+                {
+                    if ([product.productIdentifier isEqualToString:PRODUCT_ID_PREMIUM]) {
+                        productToBuy = product;
+                        break;
+                    }
+                }
+                
+               [[RageIAPHelper sharedInstance] buyProduct:productToBuy];
+            }
+        }
+        else
+        {
+            [SVProgressHUD dismiss];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:@"Could not connect to store." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+}
+
+
+- (void)productPurchased:(NSNotification *)notification {
+    
+    [SVProgressHUD dismiss];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PREMIUM_FREATURE_PURCHASED];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Congrats!" message:@"Purchased successfully. Now you can use this feature for free." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)purchaseFailed:(NSNotification *)notification {
+    
+    [SVProgressHUD dismiss];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry!" message:@"Purchase not completed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
 }
 
 #pragma mark - Memory management

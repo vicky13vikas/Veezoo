@@ -138,6 +138,10 @@
 		4E9AB03A18AD37B100B50770 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9AB03818AD37B100B50770 /* Icon-72@2x.png */; };
 		4E9ADDE818B088B30003687C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9ADDE418B088B30003687C /* libTestFlight.a */; };
 		4E9ADDEA18B08E300003687C /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9ADDE918B08E300003687C /* libz.1.2.5.dylib */; };
+		4E9ADDF018B0A15E0003687C /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9ADDED18B0A15E0003687C /* IAPHelper.m */; };
+		4E9ADDF118B0A15E0003687C /* RageIAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9ADDEF18B0A15E0003687C /* RageIAPHelper.m */; };
+		4E9ADDFC18B11EF90003687C /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4E9ADDF918B11EF90003687C /* SVProgressHUD.bundle */; };
+		4E9ADDFD18B11EF90003687C /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9ADDFB18B11EF90003687C /* SVProgressHUD.m */; };
 		4E9B148418AC120A00C9A6A8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9B148318AC120A00C9A6A8 /* CoreMedia.framework */; };
 		4E9B148618AC122000C9A6A8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9B148518AC122000C9A6A8 /* MediaPlayer.framework */; };
 		E144F0DE10899CCB00886E92 /* Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = E144F0CA10899CCB00886E92 /* Geometry.m */; };
@@ -323,6 +327,13 @@
 		4E9ADDE618B088B30003687C /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		4E9ADDE718B088B30003687C /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		4E9ADDE918B08E300003687C /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		4E9ADDEC18B0A15E0003687C /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
+		4E9ADDED18B0A15E0003687C /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
+		4E9ADDEE18B0A15E0003687C /* RageIAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RageIAPHelper.h; sourceTree = "<group>"; };
+		4E9ADDEF18B0A15E0003687C /* RageIAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RageIAPHelper.m; sourceTree = "<group>"; };
+		4E9ADDF918B11EF90003687C /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		4E9ADDFA18B11EF90003687C /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		4E9ADDFB18B11EF90003687C /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		4E9B148318AC120A00C9A6A8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4E9B148518AC122000C9A6A8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E144F0C910899CCB00886E92 /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
@@ -399,6 +410,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4E9ADDF818B11EF90003687C /* SVProgressHUD */,
+				4E9ADDEB18B0A15E0003687C /* InAppHelper */,
 				127DF85913938CAA00E07C54 /* General.h */,
 				126D8F4C137BD4CE002167CC /* Options.h */,
 				126D8F4D137BD4CE002167CC /* Options.m */,
@@ -734,6 +747,27 @@
 			path = TestFlightSDK2.2.1;
 			sourceTree = "<group>";
 		};
+		4E9ADDEB18B0A15E0003687C /* InAppHelper */ = {
+			isa = PBXGroup;
+			children = (
+				4E9ADDEC18B0A15E0003687C /* IAPHelper.h */,
+				4E9ADDED18B0A15E0003687C /* IAPHelper.m */,
+				4E9ADDEE18B0A15E0003687C /* RageIAPHelper.h */,
+				4E9ADDEF18B0A15E0003687C /* RageIAPHelper.m */,
+			);
+			path = InAppHelper;
+			sourceTree = "<group>";
+		};
+		4E9ADDF818B11EF90003687C /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				4E9ADDF918B11EF90003687C /* SVProgressHUD.bundle */,
+				4E9ADDFA18B11EF90003687C /* SVProgressHUD.h */,
+				4E9ADDFB18B11EF90003687C /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 		E144F1C210899EA300886E92 /* OpenGL Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -896,6 +930,7 @@
 				12BAAE61148E9D1300BCC792 /* userbox@2x.png in Resources */,
 				12F91801148EA2C700BADE9F /* helpPhone.png in Resources */,
 				12F91802148EA2C700BADE9F /* helpPhone@2x.png in Resources */,
+				4E9ADDFC18B11EF90003687C /* SVProgressHUD.bundle in Resources */,
 				12F91808148EA81400BADE9F /* Default.png in Resources */,
 				12F9180A148EA83700BADE9F /* Default@2x.png in Resources */,
 				12F9180B148EA83E00BADE9F /* Default-Portrait~ipad.png in Resources */,
@@ -921,6 +956,7 @@
 				E144F0E410899CCB00886E92 /* Texture2D.m in Sources */,
 				E144F0E510899CCB00886E92 /* GLView.m in Sources */,
 				1278287E128EB589008BC185 /* AVAudio.m in Sources */,
+				4E9ADDFD18B11EF90003687C /* SVProgressHUD.m in Sources */,
 				12830316128FF52A0059146C /* Atlas.m in Sources */,
 				12830317128FF52A0059146C /* AtlasItem.m in Sources */,
 				126D905912AE3B2A006C4724 /* ParticleAtlas.m in Sources */,
@@ -930,8 +966,10 @@
 				12E638691379202600AF24C7 /* ControlsViewController.m in Sources */,
 				126D8F4E137BD4CE002167CC /* Options.m in Sources */,
 				120632341383F3CC008BE360 /* GameKitAchievement.m in Sources */,
+				4E9ADDF118B0A15E0003687C /* RageIAPHelper.m in Sources */,
 				120632351383F3CC008BE360 /* GameKitLibrary.m in Sources */,
 				120632361383F3CC008BE360 /* GameKitScore.m in Sources */,
+				4E9ADDF018B0A15E0003687C /* IAPHelper.m in Sources */,
 				12D16E8513877AB20041C5E3 /* AudioViewController.m in Sources */,
 				12CAFD751392286F005262A8 /* HelpViewController.m in Sources */,
 				12E7DE4E13962FD600EE3419 /* CreditsViewController.m in Sources */,
