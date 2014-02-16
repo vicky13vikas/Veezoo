@@ -136,6 +136,8 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		4E9AB03918AD37B100B50770 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9AB03718AD37B100B50770 /* Icon-72.png */; };
 		4E9AB03A18AD37B100B50770 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9AB03818AD37B100B50770 /* Icon-72@2x.png */; };
+		4E9ADDE818B088B30003687C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9ADDE418B088B30003687C /* libTestFlight.a */; };
+		4E9ADDEA18B08E300003687C /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9ADDE918B08E300003687C /* libz.1.2.5.dylib */; };
 		4E9B148418AC120A00C9A6A8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9B148318AC120A00C9A6A8 /* CoreMedia.framework */; };
 		4E9B148618AC122000C9A6A8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9B148518AC122000C9A6A8 /* MediaPlayer.framework */; };
 		E144F0DE10899CCB00886E92 /* Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = E144F0CA10899CCB00886E92 /* Geometry.m */; };
@@ -316,6 +318,11 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4E9AB03718AD37B100B50770 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		4E9AB03818AD37B100B50770 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		4E9ADDE418B088B30003687C /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		4E9ADDE518B088B30003687C /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		4E9ADDE618B088B30003687C /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		4E9ADDE718B088B30003687C /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		4E9ADDE918B08E300003687C /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		4E9B148318AC120A00C9A6A8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4E9B148518AC122000C9A6A8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E144F0C910899CCB00886E92 /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
@@ -344,6 +351,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E9ADDEA18B08E300003687C /* libz.1.2.5.dylib in Frameworks */,
+				4E9ADDE818B088B30003687C /* libTestFlight.a in Frameworks */,
 				4E9B148618AC122000C9A6A8 /* MediaPlayer.framework in Frameworks */,
 				4E9B148418AC120A00C9A6A8 /* CoreMedia.framework in Frameworks */,
 				04425D2918A25E0000713516 /* AdSupport.framework in Frameworks */,
@@ -691,6 +700,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4E9ADDE918B08E300003687C /* libz.1.2.5.dylib */,
+				4E9ADDE318B088B30003687C /* TestFlightSDK2.2.1 */,
 				4E9B148518AC122000C9A6A8 /* MediaPlayer.framework */,
 				4E9B148318AC120A00C9A6A8 /* CoreMedia.framework */,
 				04425D2818A25E0000713516 /* AdSupport.framework */,
@@ -710,6 +721,17 @@
 				127AC05712FADE0100A13DE8 /* MessageUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4E9ADDE318B088B30003687C /* TestFlightSDK2.2.1 */ = {
+			isa = PBXGroup;
+			children = (
+				4E9ADDE418B088B30003687C /* libTestFlight.a */,
+				4E9ADDE518B088B30003687C /* TestFlight+AsyncLogging.h */,
+				4E9ADDE618B088B30003687C /* TestFlight+ManualSessions.h */,
+				4E9ADDE718B088B30003687C /* TestFlight.h */,
+			);
+			path = TestFlightSDK2.2.1;
 			sourceTree = "<group>";
 		};
 		E144F1C210899EA300886E92 /* OpenGL Classes */ = {
@@ -934,7 +956,10 @@
 				GCC_PREFIX_HEADER = Gravitarium2_Prefix.pch;
 				INFOPLIST_FILE = "Gravitarium2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				LIBRARY_SEARCH_PATHS = "./**";
+				LIBRARY_SEARCH_PATHS = (
+					"./**",
+					"/Volumes/Development/Development/FreelancerDropBox/Creative\\ Solutions/veezoo/Veezoo/Code/Gravitarium2/TestFlightSDK2.2.1",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Gravitarium2;
 				PROVISIONING_PROFILE = "5A5FAE35-7DE4-4C43-AC92-E868F3F548CF";
@@ -953,7 +978,10 @@
 				GCC_PREFIX_HEADER = Gravitarium2_Prefix.pch;
 				INFOPLIST_FILE = "Gravitarium2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				LIBRARY_SEARCH_PATHS = "./**";
+				LIBRARY_SEARCH_PATHS = (
+					"./**",
+					"/Volumes/Development/Development/FreelancerDropBox/Creative\\ Solutions/veezoo/Veezoo/Code/Gravitarium2/TestFlightSDK2.2.1",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Gravitarium2;
 				PROVISIONING_PROFILE = "5A5FAE35-7DE4-4C43-AC92-E868F3F548CF";
@@ -1031,7 +1059,10 @@
 				GCC_PREFIX_HEADER = Gravitarium2_Prefix.pch;
 				INFOPLIST_FILE = "Gravitarium2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				LIBRARY_SEARCH_PATHS = "./**";
+				LIBRARY_SEARCH_PATHS = (
+					"./**",
+					"/Volumes/Development/Development/FreelancerDropBox/Creative\\ Solutions/veezoo/Veezoo/Code/Gravitarium2/TestFlightSDK2.2.1",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Gravitarium2;
 				PROVISIONING_PROFILE = "5A5FAE35-7DE4-4C43-AC92-E868F3F548CF";

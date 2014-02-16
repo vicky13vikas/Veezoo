@@ -7,6 +7,7 @@
 //
 
 #import "Gravitarium2AppDelegate.h"
+#import "TestFlight.h"
 
 @implementation Gravitarium2AppDelegate
 
@@ -33,6 +34,8 @@
     //GameKit
     [GameKitLibrary sharedGameKit].presentingViewController = glViewController;
     
+    [TestFlight takeOff:@"a9a6c356-3a52-4f48-8e66-ef62f45eb094"];
+
     //Return
     return TRUE;
 }
